@@ -64,10 +64,10 @@ The Robot is constructed of 3D printed parts and generic parts easily purchasabl
 - [Generic N20 Motors 12V 200 RPM with encoders attached](https://www.amazon.com/MECCANIXITY-Encoder-Gearbox-Electric-Reduction/dp/B0F8NGMRCX/ref=sr_1_3?s=industrial&th=1)
 - [N20 Motor Mount Bracket (easily 3D Printable)](https://www.amazon.com/MECCANIXITY-Mounting-Bracket-11-5mm-Screws/dp/B09NN6FQ78/ref=sr_1_4?s=industrial)
 - [2x Pololu QTR-1A IR Sensor (optional)](https://www.robotshop.com/products/pololu-qtr-1a-reflectance-sensor-2pk?)
-- Robot Chassis (STL provided in this repo)
-- Spacers for Ball cast/QTR sensors (STL provided in this repo)
-- Claw (STL provided in this repo)
-- Alignment tool for lining up the robot straight (STL provided in this repo)
+- [Robot Chassis (STL provided in this repo)](./CAD%20files/Chasis.stl)
+- [Spacers for Ball cast/QTR sensors (STL provided in this repo)](./CAD%20files/spacers/)
+- [Claw (STL provided in this repo)](./CAD%20files/Claw.stl)
+- [Alignment tool for lining up the robot straight (STL provided in this repo)](./CAD%20files/alignment_tool.stl)
 ## Thoughts
 While this vehicle was not perfect by all means, this project allowed me to learn about invaluable skills not yet covered through school, namely **CAD**, **elements of circuit design**, **exposure to engineering concepts**. As consequence, I am excited to keep learning, building and challenging myself with future projects :).
 
