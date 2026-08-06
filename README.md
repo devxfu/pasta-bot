@@ -48,7 +48,7 @@ The robot was designed with the need to minimize its size in mind, because its r
 Generated from [app.cirkitdesigner.com](https://app.cirkitdesigner.com)
 
 ![cirkit wiring diagram](./embeds/circuit_image.png)
-### Materials
+### Materials (total cost: ~$80)
 The Robot is constructed of 3D printed parts and generic parts easily purchasable in a hardware store or on Amazon. Below is a list of parts, linked to the specific versions purchased:
 - Generic Male to Female Jumper Wires
 - Generic Resistors
