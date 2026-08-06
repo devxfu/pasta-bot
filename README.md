@@ -1,6 +1,10 @@
 # pasta-bot
 A two-wheeled autonomous ground vehicle made for Science Olympiad's Robot Tour event, affectionately referred to as **pasta-bot** because of the spaghetti code holding it together.
 
+<p align="center">
+  <img src="./embeds/IMG_4111 copy.jpeg" alt="pasta-bot V2, finished" width="220" height="220" style="border-radius: 50%;" />
+</p>
+
 ## About This Project
 Created for educational purposes as a first attempt at a hardware project.
 
@@ -19,6 +23,31 @@ The goal of the Robot Tour event is to guide a robot as close to a target point 
     - Note: only pushing is allowed, mechanisms such of those using **servos** are strictly banned
   - Harsh penalty for knocking over obstacle
   - Additional information can be seen on the [scoring sheet](https://www.soinc.org/sites/default/files/uploaded_files/RobotTourBC2026TeamChecklist_vB.pdf)
+
+## Code Logic
+**Due to** the fact that course information is not available until day of competition, we opted to hard code values for total dist of path chosen and target time, changing them only based on the information given at the time of competition. 
+
+Given these constraints, the robot adjusts its own speed across the course to execute its route with perfect timing. Since motors have no conception of velocity, however, **PID** control loop using motor encoder data was used to control voltage supplied into motor driver pins, where physical constants (i.e. wheel diameter) translate encoder ticks into data interpretable in a physical context.
+
+Basic kinematics was used in this timing-velocity calculation, as the robot necessitates time to accelerate into the ideal velocity, thereby affecting velocity calculations. The calculation therefore takes into account the trapezoidal acceleration profile implemented in the driving logic of the  vehicle and dynamically adjusts necessary speed across against its own timer every leg to account and adjust for errors.
+
+Turning mechanism was solely dictated by IMU readings with a slight head room for angle errors. An attempt to use wheel-encoder data either as replacement or complement (through 1D Kalman sensor fusion technique) revealed that the wheel-encoder data is unfit for rotations in the robot, thereby poisoning the mostly accurate IMU readings robot (especially due to the small size of the bot).
+
+A feed forward mechanism was implemented to supplement the PID control loop, derived from manual experiments in approximating the relationship between power supplied with wheel-encoder tick readings on floor. PID tunings were also adjusted using constants through empirical evidence.
+
+Additional code implementations (such as addressing coasting after braking) can be found in the **src code in **this repo****
+
+## Hardware Design
+The robot was designed with the need to minimize its size in mind, because its rotational and translational movements can be controlled more precisely due to its size. As consequence, the design of chassis required careful planning. Below are a few decisions and their justifications:
+- Since the battery compartment is the heaviest, trials in OnShape was conducted before 3D printing to assess center of mass locations. The current positioning of nearing the front of the robot was found to be optimal for placing center of mass only slightly behind wheel axis, which was believed to be optimal.
+    - Additionally, quarters can be simply taped to the bottom-back portion of the robot to manually tune center of mass back towards the ball cast if the above belief is erroneous
+- Many cutouts were made for wiring access on the robot platform in order to avoid tangling and potential loosening issues
+- QTR-1A sensor implemented in the second iteration of the robot was placed directly under the claw as it has an optimal sensing range of only 3mm, so it was placed extremely close to the ground while remaining parallel about the dowel so it could stop the bot as soon as it detects drastic color change (i.e. finish line tape)
+  
+### Circuit Wiring Diagram
+Generated from [app.cirkitdesigner.com](https://app.cirkitdesigner.com)
+
+![cirkit wiring diagram](./embeds/circuit_image.png)
 ### Materials
 The Robot is constructed of 3D printed parts and generic parts easily purchasable in a hardware store or on Amazon. Below is a list of parts, linked to the specific versions purchased:
 - Generic Male to Female Jumper Wires
@@ -35,38 +64,17 @@ The Robot is constructed of 3D printed parts and generic parts easily purchasabl
 - [Generic N20 Motors 12V 200 RPM with encoders attached](https://www.amazon.com/MECCANIXITY-Encoder-Gearbox-Electric-Reduction/dp/B0F8NGMRCX/ref=sr_1_3?s=industrial&th=1)
 - [N20 Motor Mount Bracket (easily 3D Printable)](https://www.amazon.com/MECCANIXITY-Mounting-Bracket-11-5mm-Screws/dp/B09NN6FQ78/ref=sr_1_4?s=industrial)
 - [2x Pololu QTR-1A IR Sensor (optional)](https://www.robotshop.com/products/pololu-qtr-1a-reflectance-sensor-2pk?)
-- Robot Chasis (STL provided in this repo)
+- Robot Chassis (STL provided in this repo)
 - Spacers for Ball cast/QTR sensors (STL provided in this repo)
 - Claw (STL provided in this repo)
 - Alignment tool for lining up the robot straight (STL provided in this repo)
-
-## Code Logic
-**Due to** the fact that course information is not given until information, we opted to hard code values for total dist of path chosen and target time, changing them only based on the information given at the time of competition. 
-
-Given these constraints, the robot adjusts its own speed across the course to execute its route with perfect timing. Since motors have no conception of velocity, however, **PID** control loop using motor encoder data was used to control voltage supplied into motor driver pins, where physical constants (i.e. wheel diameter) translate encoder ticks into data interpretable in a physical context.
-
-Basic kinematics was used in this timing-velocity calculation, as the robot necessitates time to accelerate into the ideal velocity, thereby affecting velocity calculations. The calculation therefore takes into account the trapezoidal acceleration profile implemented in the driving logic of the  vehicle and dynamically adjusts necessary speed across against its own timer every leg to account and adjust for errors.
-
-Turning mechanism was solely dictated by IMU readings with a slight head room for angle errors. An attempt to use wheel-encoder data either as replacement or complement (through 1D Kalman sensor fusion technique) revealed that the wheel-encoder data is unfit for rotations in the robot, thereby poisoning the mostly accurate IMU readings robot (especially due to the small size of the bot).
-
-A feed forward mechanism was implemented to supplement the PID control loop, derived from manual experiments in approximating the relationship between power supplied with wheel-encoder tick readings on floor. PID tunings were also adjusted using constants through empirical evidence.
-
-Additional code implementations (such as addressing coasting after braking) can be found in the **src code in **this repo****
-
-## Hardware Design
-The robot was designed with the need to minimize its size in mind, because its rotational and translational movements can be controlled more precisely due to its size. As consequence, the design of chasis required careful planning. Below are a few decisions and their justifications:
-- Since the battery compartment is the heaviest, trials in OnShape was conducted before 3D printing to assess center of mass locations. The current positioning of nearing the front of the robot was found to be optimal for placing center of mass only slightly behind wheel axis, which was believed to be optimal.
-    - Additionally, quarters can be simply taped to the bottom-back portion of the robot to manually tune center of mass back towards the ball cast if the above belief is erroneous
-- Many cutouts were made for wiring access on the robot platform in order to avoid tangling and potential loosening issues
-- QTR-1A sensor implemented in the second iteration of the robot was placed directly under the claw as it has an optimal sensing range of only 3mm, so it was placed extremely close to the ground while remaining parallel about the dowel so it could stop the bot as soon as it detects drastic color change (i.e. finish line tape)
-
 ## Thoughts
 While this vehicle was not perfect by all means, this project allowed me to learn about invaluable skills not yet covered through school, namely **CAD**, **elements of circuit design**, **exposure to engineering concepts**. As consequence, I am excited to keep learning, building and challenging myself with future projects :).
 
 ## Media
-**V1 Chasis Print**
+**V1 Chassis Print**
 
-![First Chasis Print](./embeds/IMG_3986.JPG)
+![First Chassis Print](./embeds/IMG_3986.JPG)
 
 **V1 Claw Print**
 
